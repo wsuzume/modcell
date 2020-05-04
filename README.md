@@ -4,7 +4,7 @@
 
 # Usage
 
-`modcell` searches `ipynb` files registered in `sys.path`. `modcell` identifies `# modcell` comment in a cell and import it as a module.
+`modcell` searches `ipynb` files registered in `sys.path`. `modcell` identifies `# modcell` comment in a cell and imports it as a module.
 
 # Installation
 
