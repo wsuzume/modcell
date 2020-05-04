@@ -1,4 +1,4 @@
-import io, os, sys, types
+import io, os, sys, types, importlib
 
 from IPython import get_ipython
 from nbformat import read
@@ -58,30 +58,27 @@ class NotebookLoader(object):
         self.shell = InteractiveShell.instance()
         self.path = path
 
-    def load_module(self, fullname):
-        """import a notebook as a module"""
-        path = find_notebook(fullname, self.path)
-
+    def create_module(self, spec):
+        path = find_notebook(spec.name, self.path)
         print(f"importing Jupyter notebook from {path}")
 
-        # load the notebook object
-        with io.open(path, 'r', encoding='utf-8') as f:
-            nb = read(f, 4)
-
-
-        # create the module and add it to sys.modules
-        # if name in sys.modules:
-        #    return sys.modules[name]
-        mod = types.ModuleType(fullname)
+        mod = types.ModuleType(spec.name)
         mod.__file__ = path
         mod.__loader__ = self
         mod.__dict__['get_ipython'] = get_ipython
-        sys.modules[fullname] = mod
+        sys.modules[spec.name] = mod
 
+        return mod
+
+    def exec_module(self, mod):
         # extra work to ensure that magics that would affect the user_ns
         # actually affect the notebook module's ns
         save_user_ns = self.shell.user_ns
         self.shell.user_ns = mod.__dict__
+
+        # load the notebook object
+        with io.open(mod.__file__, 'r', encoding='utf-8') as f:
+            nb = read(f, 4)
 
         try:
           for cell in nb.cells:
@@ -96,12 +93,12 @@ class NotebookLoader(object):
             self.shell.user_ns = save_user_ns
         return mod
 
-class NotebookFinder(object):
+class NotebookFinder(importlib.abc.MetaPathFinder):
     """Module finder that locates Jupyter Notebooks"""
     def __init__(self):
         self.loaders = {}
 
-    def find_module(self, fullname, path=None):
+    def find_spec(self, fullname, path=None, target=None):
         nb_path = find_notebook(fullname, path)
         if not nb_path:
             return
@@ -113,7 +110,10 @@ class NotebookFinder(object):
 
         if key not in self.loaders:
             self.loaders[key] = NotebookLoader(path)
-        return self.loaders[key]
+
+        return importlib.machinery.ModuleSpec(name=fullname,
+                                                loader=self.loaders[key],
+                                                origin=nb_path)
 
 class ModCell:
     def __init__(self):
