@@ -40,7 +40,8 @@ class TestModule:
         print('Hello from TestModule')
 ```
 
-```:Output
+Output:
+```
 Hello from TestModule
 ```
 
@@ -67,7 +68,8 @@ class SubTestModule:
         print('Hello from SubTestModule')
 ```
 
-```:Output
+Output:
+```
 Hello from SubTestModule
 ```
 
@@ -85,7 +87,8 @@ x = mod.TestModule()
 x.hello()
 ```
 
-```:Output
+Output:
+```
 /
 /Users
 Hello from TestModule
