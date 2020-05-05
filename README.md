@@ -1,6 +1,6 @@
 # modcell
 
-`modecell` enables a Jupyter notebook cell as a module. It allows you to import a cell from another ipynb file by using `modcell` keyword.
+`modcell` enables a Jupyter notebook cell as a module. It allows you to import a cell from another ipynb file by using `modcell` keyword.
 
 # Usage
 
