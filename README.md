@@ -9,7 +9,7 @@
 # Installation
 
 ```
-pip modcell as mods
+pip install modcell
 ```
 
 # How to use modcell
@@ -19,7 +19,7 @@ You import the modecell in a file where you import a cell from another ipynb fil
 
 For example in hello.ipynb:
 
-```
+```python
 import modcell as mods
 
 import test_module as mod
@@ -30,7 +30,7 @@ x.hello()
 
 In test_module.ipynb:
 
-```
+```python
 # modcell
 class TestModule:
     def __init__(self):
@@ -40,9 +40,7 @@ class TestModule:
         print('Hello from TestModule')
 ```
 
-Output:
-
-```
+```:Output
 Hello from TestModule
 ```
 
@@ -50,7 +48,7 @@ Hello from TestModule
 
 You can import a file from a sub-directory:
 
-```
+```python
 from mydir import sub_file as mod
 
 x = mod.SubTestModule()
@@ -59,7 +57,7 @@ x.hello()
 
 `sub_file` under `mydir`:
 
-```
+```python
 # modcell
 class SubTestModule:
     def __init__(self):
@@ -69,9 +67,7 @@ class SubTestModule:
         print('Hello from SubTestModule')
 ```
 
-Output:
-
-```
+```:Output
 Hello from SubTestModule
 ```
 
@@ -79,7 +75,7 @@ Hello from SubTestModule
 
 In sub_receiver.ipynb:
 
-```
+```python
 import modcell as mods
 
 %cd ..
@@ -89,9 +85,7 @@ x = mod.TestModule()
 x.hello()
 ```
 
-Output:
-
-```
+```:Output
 /
 /Users
 Hello from TestModule
