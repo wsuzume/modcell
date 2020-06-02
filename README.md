@@ -73,23 +73,25 @@ Output:
 Hello from SubTestModule
 ```
 
-## Importing from a parent directory
+## Importing from other directory
 
-In sub_receiver.ipynb:
+Add the directory path to `sys.path`.
+
+In sub_receiver.ipynb in parent directory:
 
 ```python
+import sys
+sys.path.append('..')
+
 import modcell as mods
 
-%cd ..
 import test_module as mod
-%cd -
+
 x = mod.TestModule()
 x.hello()
 ```
 
 Output:
 ```
-/
-/Users
 Hello from TestModule
 ```
