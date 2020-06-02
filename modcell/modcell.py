@@ -174,6 +174,9 @@ class NotebookFinder(importlib.abc.MetaPathFinder):
         self.loaders = {}
 
     def find_spec(self, fullname, path=None, target=None):
+        if path is None:
+            path = sys.path
+
         nb_path = find_notebook(fullname, path)
         if not nb_path:
             return
